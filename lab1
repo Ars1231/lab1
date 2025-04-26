@@ -1,1 +1,45 @@
 
+#include <iostream>
+#include <fstream>
+#include <vector>
+using namespace std;
+
+class Hangar {
+private:
+    double width;  
+    double length; 
+public:
+    Hangar(double w, double l) : width(w), length(l) {}
+    double calculateArea() const {
+        return width * length;
+    }
+    void print() const {
+        cout << "Ширина: " << width << " м, Длина: " << length << " м, Площадь: " << calculateArea() << " м²" << endl;
+    }
+    double getWidth() const { return width; }
+    double getLength() const { return length; }
+};
+
+int main() {
+    ifstream input("input.txt");
+    ofstream output("output.txt");
+    vector<Hangar> hangars;
+    double totalArea = 0;
+    double width, length;
+    while (input >> width >> length) {
+        hangars.emplace_back(width, length);
+    }
+    cout << "Параметры ангаров:" << endl;
+    output << "Параметры ангаров:" << endl;
+    for (const auto& hangar : hangars) {
+        hangar.print();
+        output << "Ширина: " << hangar.getWidth() << " м, Длина: " << hangar.getLength() 
+               << " м, Площадь: " << hangar.calculateArea() << " м²" << endl;
+        totalArea += hangar.calculateArea();
+    }
+    cout << "\nОбщая площадь склада: " << totalArea << " м²" << endl;
+    output << "\nОбщая площадь склада: " << totalArea << " м²" << endl;
+    input.close();
+    output.close();
+    return 0;
+}
